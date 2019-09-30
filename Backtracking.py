@@ -2,7 +2,7 @@
 # Algoritmo de Backtracking. Solucion de Laberintos.
 # Python 3.6
 # By: LawlietJH
-# Version: 1.0.0
+# Version: 1.0.1
 
 import time, os
 from colorama import Fore, Back, Style, init
@@ -147,13 +147,13 @@ def backtracking(arbol):
 		return False			# Si ya esta en la pila, entonces se retorna para no continuar por un camino repetido.
 		
 	try: 	izq = [lab[Y][X-1], [Y, X-1]]		# Si se sale de la matriz (o sea que ocurre un error, se desborda de la matriz), se va al except.
-	except: izq = None
+	except: izq = [['','']]
 	try: 	arr = [lab[Y-1][X], [Y-1, X]]
-	except: arr = None
+	except: arr = [['','']]
 	try: 	der = [lab[Y][X+1], [Y, X+1]]
-	except: der = None
+	except: der = [['','']]
 	try: 	aba = [lab[Y+1][X], [Y+1, X]]
-	except: aba = None
+	except: aba = [['','']]
 	
 	orden = [aba, der, arr, izq]				# Cambiar al gusto el orden de expansion de nodos aquí.
 	
