@@ -233,7 +233,7 @@ tiempo = 0.02	#Tiempo de segundos por frame.
 
 
 # Si el codigo se ejecuta directamente desde este archivo, entonces entra aqui, si se manda a llamar desde otro archivo, no entrará en el bloque.
-if __name__ == '__maim__':
+if __name__ == '__main__':
 	
 	# Se carga el laberinto desde el archivo en modo lectura (r de read) y se almacena en la variable f, f solo funcionará dentro del bloque WITH.
 	with open('laberinto_01.txt','r') as f:
