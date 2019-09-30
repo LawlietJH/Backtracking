@@ -2,9 +2,9 @@
 # Algoritmo de Backtracking. Solucion de Laberintos.
 # Python 3.6
 # By: LawlietJH
-# Version: 1.0.1
+# Version: 1.0.2
 
-import time, os
+import time, os, sys
 from colorama import Fore, Back, Style, init
 
 init()
@@ -231,38 +231,53 @@ cont = 1		# Contador de Pasos.
 tiempo = 0.02	#Tiempo de segundos por frame.
 
 
-# Se carga el laberinto desde el archivo en modo lectura (r de read) y se almacena en la variable f, f solo funcionará dentro del bloque WITH.
-with open('laberinto_01.txt','r') as f:
+
+# Si el codigo se ejecuta directamente desde este archivo, entonces entra aqui, si se manda a llamar desde otro archivo, no entrará en el bloque.
+if __name__ == '__maim__':
 	
-	lab = f.read()				# Leemos el contenido de el archivo y se extrae como una sola cadena.
-	lab = lab.split('\n')		# Generamos una lista con la cadena dividida en saltos de linea, o sea, se genera la lista con las filas completas.
+	# Se carga el laberinto desde el archivo en modo lectura (r de read) y se almacena en la variable f, f solo funcionará dentro del bloque WITH.
+	with open('laberinto_01.txt','r') as f:
+		
+		lab = f.read()				# Leemos el contenido de el archivo y se extrae como una sola cadena.
+		lab = lab.split('\n')		# Generamos una lista con la cadena dividida en saltos de linea, o sea, se genera la lista con las filas completas.
+		
+		tamY = len(lab)				# Extraemos las dimensiones en Y, que es la cantidad de Filas.
+		tamX = len(lab[0])			# Extraemos las dimensiones en X, que es la cantidad de elementos en una fila, o sea, las columnas.
+		
+		# Buscamos las coordenadas Inicial y Final.
+		for y, fila in enumerate(lab):				# extraemos una fila en cada iteracion y contamos con enumerate() en y, desde la posicion 0, en cada iteracion y aumenta 1.
+			for x, campo in enumerate(fila):		# extraemos una columna en cada iteracion y contamos con enumerate() en x, desde la posicion 0, en cada iteracion x aumenta 1 
+				if   campo == 'I': ini = [y, x]		# Agregamos la coordenada Inicial si se encontro.
+				elif campo == 'F': fin = [y, x]		# Agregamos la coordenada Final si se encontro.
+				
+				if not ini == [] and not fin == []: break	# Si ya se encontraron ambos, se cierra el recorrido.
+			if not ini == [] and not fin == []: break
+		
+		if ini == []:
+			print('\n\n El Laberinto no tiene un punto de Inicio.')
+			sys.exit()
+		if fin == []:
+			print('\n\n El archivo no tiene un punto Final.')
+			sys.exit()
+		
+		
+		# Cerramos el archivo almacenado en la variable f.
+		f.close()
 	
-	tamY = len(lab)				# Extraemos las dimensiones en Y, que es la cantidad de Filas.
-	tamX = len(lab[0])			# Extraemos las dimensiones en X, que es la cantidad de elementos en una fila, o sea, las columnas.
 	
-	# Buscamos las coordenadas Inicial y Final.
-	for y, fila in enumerate(lab):				# extraemos una fila en cada iteracion y contamos con enumerate() en y, desde la posicion 0, en cada iteracion y aumenta 1.
-		for x, campo in enumerate(fila):		# extraemos una columna en cada iteracion y contamos con enumerate() en x, desde la posicion 0, en cada iteracion x aumenta 1 
-			if   campo == 'I': ini = [y, x]		# Agregamos la coordenada Inicial si se encontro.
-			elif campo == 'F': fin = [y, x]		# Agregamos la coordenada Final si se encontro.
 	
-	# Cerramos el archivo almacenado en la variable f.
-	f.close()
-
-
-
-# Genera el objeto tree de la clase Arbol:
-tree = Arbol(ini)		# Le pasamos la posicion inicial como raiz del arbol.
-tree.esini = True		# Indicamos que esta posicion es la Inicial.
-backtracking(tree)		# Iniciamos el recorrido del laberinto.
-imprimirLaberinto(lab)	# Imprimimos una ultima vez el laberinto ya con todo el recorrido despues de hacer backtracking.
-
-# Imprimimos la pila con el recorrido del algoritmo:
-print(Fore.GREEN+'\n\n Recorrido Final por Coordenadas:', pila)
-
-# Recorrido en Profundidad:
-# ~ print(Fore.GREEN+'\n\n Recorrido en Profundidad:\n')
-# ~ tree.profundidad(tree)
+	# Genera el objeto tree de la clase Arbol:
+	tree = Arbol(ini)		# Le pasamos la posicion inicial como raiz del arbol.
+	tree.esini = True		# Indicamos que esta posicion es la Inicial.
+	backtracking(tree)		# Iniciamos el recorrido del laberinto.
+	imprimirLaberinto(lab)	# Imprimimos una ultima vez el laberinto ya con todo el recorrido despues de hacer backtracking.
+	
+	# Imprimimos la pila con el recorrido del algoritmo:
+	print(Fore.GREEN+'\n\n Recorrido Final por Coordenadas:', pila)
+	
+	# Recorrido en Profundidad:
+	# ~ print(Fore.GREEN+'\n\n Recorrido en Profundidad:\n')
+	# ~ tree.profundidad(tree)
 
 
 
